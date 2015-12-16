@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lumino - Dashboard</title>
+
+<link href="css/bootstrap.min.css" rel="stylesheet">
+<link href="css/datepicker3.css" rel="stylesheet">
+<link href="css/styles.css" rel="stylesheet">
+<link href="css/bubble.css" rel="stylesheet">
+
+<!--[if lt IE 9]>
+<script src="js/html5shiv.js"></script>
+<script src="js/respond.min.js"></script>
+<![endif]-->
+
+</head>
+
+<body>
+	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#sidebar-collapse">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="#"><span>Meows</span>  Aragaki</a>
+				<ul class="user-menu">
+					<% if(username) { %>
+					<li class="dropdown pull-right">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown" id="LoginName"><span class="glyphicon glyphicon-user"></span> <%- username %> <span class="caret"></span></a>
+						<ul class="dropdown-menu" role="menu">
+							<li><a href="#"><span class="glyphicon glyphicon-user"></span> Profile</a></li>
+							<li><a href="#"><span class="glyphicon glyphicon-cog"></span> Settings</a></li>
+							<li><a href="logout"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+						</ul>
+					</li>
+					<% } %>
+				</ul>
+			</div>
+		</div><!-- /.container-fluid -->
+	</nav>
+
+	<div id="sidebar-collapse" class="col-sm-3 col-lg-2 sidebar">
+		<form role="search">
+			<div class="form-group">
+				<input type="text" class="form-control" placeholder="Search">
+			</div>
+		</form>
+		<ul class="nav menu">
+			<li class="active"><a href="home"><span class="glyphicon glyphicon-dashboard"></span> 聊天室</a></li>
+			<li><a href="#"><span class="glyphicon glyphicon-th"></span> Widgets</a></li>
+			<li><a href="#"><span class="glyphicon glyphicon-stats"></span> Charts</a></li>
+			<li><a href="#"><span class="glyphicon glyphicon-list-alt"></span> Tables</a></li>
+			<li><a href="#"><span class="glyphicon glyphicon-info-sign"></span> Alerts &amp; Panels</a></li>
+			<li><a href="#"><div href="#" align="center"><span class="glyphicon glyphicon-s glyphicon-plus"></span></div></a></li>
+			<li class="parent ">
+				<a href="#">
+					<span class="glyphicon glyphicon-list"></span> Dropdown <span data-toggle="collapse" href="#sub-item-1" class="icon pull-right"><em class="glyphicon glyphicon-s glyphicon-plus"></em></span>
+				</a>
+				<ul class="children collapse" id="sub-item-1">
+					<li>
+						<a class="" href="#">
+							<span class="glyphicon glyphicon-share-alt"></span> Sub Item 1
+						</a>
+					</li>
+					<li>
+						<a class="" href="#">
+							<span class="glyphicon glyphicon-share-alt"></span> Sub Item 2
+						</a>
+					</li>
+					<li>
+						<a class="" href="#">
+							<span class="glyphicon glyphicon-share-alt"></span> Sub Item 3
+						</a>
+					</li>
+				</ul>
+			</li>
+			<li role="presentation" class="divider"></li>
+			<% if(!username) { %>
+			<li><a href="#" id="to-login"><span class="glyphicon glyphicon-user"></span> Login Page</a></li>
+			<% } %>
+		</ul>
+	</div><!--/.sidebar-->
+
+	<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
+		<div class="row">
+			<ol class="breadcrumb">
+				<li><a href="#"><span class="glyphicon glyphicon-home"></span></a></li>
+				<li class="active">聊天室</li>
+			</ol>
+		</div><!--/.row-->
+
+		<div class="row" id='rightSide'>
+			<div class="col-md-9">
+
+				<div class="panel panel-default chat">
+					<div class="panel-heading" id="accordion"><span class="glyphicon glyphicon-comment"></span> Chat</div>
+					<div class="panel-body"  id="chatbox">
+						<ul id="messages" class="chat-box">
+							<li>
+								<div align="left">
+									<p class="bubble me">这只是一个示例</p>
+								</div>
+							</li>
+							<li>
+								<div align="right">
+									<p class="bubble you" align="left">这是一个比较长的示例。Hi. I'm an expandeable chat box with box shadow. How are you? I expand horizontally and vertically, as you can see here.</p>
+								</div>
+							</li>
+						</ul>
+					</div>
+
+					<div class="panel-footer">
+						<form action="" id='message-box'>
+							<div class="input-group">
+								<input id="btn-input" type="text" class="form-control input-md" placeholder="Type your message here..." required="不能发送空消息"/>
+								<span class="input-group-btn">
+									<button class="btn btn-success btn-md" id="btn-chat">Send</button>
+								</span>
+							</div>
+						</form>
+					</div>
+				</div>
+
+			</div>
+
+			<div class="col-md-3 ">
+
+				<div class="panel panel-blue">
+					<div class="panel-heading dark-overlay"><span class="glyphicon glyphicon-check"></span>To-do List</div>
+					<div class="panel-body">
+						<ul class="todo-list">
+						<li class="todo-list-item">
+								<div class="checkbox">
+									<input type="checkbox" id="checkbox" />
+									<label for="checkbox">Make a plan for today</label>
+								</div>
+								<div class="pull-right action-buttons">
+									<a href="#"><span class="glyphicon glyphicon-pencil"></span></a>
+									<a href="#" class="flag"><span class="glyphicon glyphicon-flag"></span></a>
+									<a href="#" class="trash"><span class="glyphicon glyphicon-trash"></span></a>
+								</div>
+							</li>
+							<li class="todo-list-item">
+								<div class="checkbox">
+									<input type="checkbox" id="checkbox" />
+									<label for="checkbox">Update Basecamp</label>
+								</div>
+								<div class="pull-right action-buttons">
+									<a href="#"><span class="glyphicon glyphicon-pencil"></span></a>
+									<a href="#" class="flag"><span class="glyphicon glyphicon-flag"></span></a>
+									<a href="#" class="trash"><span class="glyphicon glyphicon-trash"></span></a>
+								</div>
+							</li>
+							<li class="todo-list-item">
+								<div class="checkbox">
+									<input type="checkbox" id="checkbox" />
+									<label for="checkbox">Send email to Jane</label>
+								</div>
+								<div class="pull-right action-buttons">
+									<a href="#"><span class="glyphicon glyphicon-pencil"></span></a>
+									<a href="#" class="flag"><span class="glyphicon glyphicon-flag"></span></a>
+									<a href="#" class="trash"><span class="glyphicon glyphicon-trash"></span></a>
+								</div>
+							</li>
+							<li class="todo-list-item">
+								<div class="checkbox">
+									<input type="checkbox" id="checkbox" />
+									<label for="checkbox">Drink coffee</label>
+								</div>
+								<div class="pull-right action-buttons">
+									<a href="#"><span class="glyphicon glyphicon-pencil"></span></a>
+									<a href="#" class="flag"><span class="glyphicon glyphicon-flag"></span></a>
+									<a href="#" class="trash"><span class="glyphicon glyphicon-trash"></span></a>
+								</div>
+							</li>
+							<li class="todo-list-item">
+								<div class="checkbox">
+									<input type="checkbox" id="checkbox" />
+									<label for="checkbox">Do some work</label>
+								</div>
+								<div class="pull-right action-buttons">
+									<a href="#"><span class="glyphicon glyphicon-pencil"></span></a>
+									<a href="#" class="flag"><span class="glyphicon glyphicon-flag"></span></a>
+									<a href="#" class="trash"><span class="glyphicon glyphicon-trash"></span></a>
+								</div>
+							</li>
+							<li class="todo-list-item">
+								<div class="checkbox">
+									<input type="checkbox" id="checkbox" />
+									<label for="checkbox">Tidy up workspace</label>
+								</div>
+								<div class="pull-right action-buttons">
+									<a href="#"><span class="glyphicon glyphicon-pencil"></span></a>
+									<a href="#" class="flag"><span class="glyphicon glyphicon-flag"></span></a>
+									<a href="#" class="trash"><span class="glyphicon glyphicon-trash"></span></a>
+								</div>
+							</li>
+						</ul>
+					</div>
+					<div class="panel-footer">
+						<div class="input-group">
+							<input id="btn-input" type="text" class="form-control input-md" placeholder="Add new task" />
+							<span class="input-group-btn">
+								<button class="btn btn-primary btn-md" id="btn-todo">Add</button>
+							</span>
+						</div>
+					</div>
+				</div>
+
+			</div><!--/.col-->
+		</div><!--/.row-->
+	</div>	<!--/.main-->
+
+	<div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-hidden="true">
+	    <div class="modal-dialog">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <button type="button" class="close" data-dismiss="modal">
+	                    <span aria-hidden="true">&times;</span>
+	                    <span class="sr-only"></span>
+	                </button>
+	                <h4 class="modal-title " id="myModalLabel">登录</h4>
+	            </div>
+	            <div class="modal-body">
+	                <div class="row">
+	                    <div class="col-sm-8 col-sm-push-2">
+	                        <div class="alert alert-danger" role="alert" id="login-error" style="display: none">
+	                            <span class="glyphicon glyphicon-remove"></span>
+	                            请填写账号
+	                        </div>
+								<form  role="form" method="post" onsubmit="return false">
+									<fieldset>
+										<div class="form-group">
+						                    <div class="input-group">
+						                        <span class="input-group-addon">
+						                        <span class="glyphicon glyphicon-user"></span>
+						                        </span>
+						                        <input type="text" class="form-control" id="username" name="username" placeholder="请输入用户名" required>
+						                    </div>
+						                </div>
+										<div class="form-group">
+											<div class="input-group">
+												<span class="input-group-addon">
+												<span class="glyphicon glyphicon-lock"></span>
+												</span>
+												<input type="password" class="form-control" id="password" name="password" placeholder="请输入密码" required>
+											</div>
+										</div>
+										<div class="form-group">
+												<button type="submit" class="btn btn-primary btn-block" id="loginBtn">登录</button>
+										</div>
+										<div class="form-group">
+												<button type="button" class="btn btn-info col-sm-2 col-sm-offset-10" id="login-sign">注册</button>
+										</div>
+								</fieldset>
+							</form>
+	                    </div>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+
+	<div class="modal fade" id="sign-in-modal" tabindex="-1" role="dialog" aria-hidden="true">
+	    <div class="modal-dialog">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <button type="button" class="close" data-dismiss="modal">
+	                    <span aria-hidden="true">&times;</span>
+	                    <span class="sr-only"></span>
+	                </button>
+	                <h4 class="modal-title " id="myModalLabel">注册</h4>
+	            </div>
+	            <div class="modal-body">
+	                <div class="row">
+	                    <div class="col-sm-8 col-sm-push-2">
+	                        <div class="alert alert-danger" role="alert" id="register-error" style="display: none">
+	                            <span class="glyphicon glyphicon-remove"></span>
+	                            两次密码不同
+	                        </div>
+								<form  role="form" method="post" onsubmit="return false">
+									<fieldset>
+										<div class="form-group">
+						                    <div class="input-group">
+						                        <span class="input-group-addon">
+						                        <span class="glyphicon glyphicon-user"></span>
+						                        </span>
+						                        <input type="text" class="form-control" id="reg-username" name="reg-username" placeholder="请输入用户名" required>
+						                    </div>
+						                </div>
+										<div class="form-group">
+											<div class="input-group">
+												<span class="input-group-addon">
+												<span class="glyphicon glyphicon-lock"></span>
+												</span>
+												<input type="password" class="form-control" id="reg-passwd" name="reg-passwd" placeholder="请输入密码" required>
+											</div>
+										</div>
+										<div class="form-group">
+											<div class="input-group">
+												<span class="input-group-addon">
+												<span class="glyphicon glyphicon-lock"></span>
+												</span>
+												<input type="password" class="form-control" id="reg-passwd1" name="reg-passwd1" placeholder="请再次输入密码" required>
+											</div>
+										</div>
+										<div class="form-group">
+						                        <button type="submit" class="btn btn-primary btn-block" id="registerBtn">注册</button>
+						                </div>
+						                <div class="form-group">
+						                        <button type="button" class="btn btn-info col-sm-2 col-sm-offset-10" id="sign-login">登录</button>
+						                </div>
+								</fieldset>
+							</form>
+	                    </div>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+
+	<script src="js/jquery-2.1.4.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+	<script src="../socket.io/socket.io.js"></script>
+
+	<script>
+		// 这主要是控制界面
+		console.log($('#chatbox').offset());
+		$('#chatbox').height($(window).height() - 2*$('#chatbox').offset().top);
+		!function ($) {
+		    $(document).on("click","ul.nav li.parent > a > span.icon", function(){
+		        $(this).find('em:first').toggleClass("glyphicon-minus");
+		    });
+		    $(".sidebar span.icon").find('em:first').addClass("glyphicon-plus");
+		}(window.jQuery);
+
+		$(window).on('resize', function () {
+		  if ($(window).width() > 768) {
+			  $('#sidebar-collapse').collapse('show');
+		  }
+		  else {
+		  	$('#sidebar-collapse').collapse('hide');
+		  }
+		})
+
+		$(window).on('resize', function () {
+		  $('#chatbox').height($(window).height() - 2*$('#chatbox').offset().top);
+		})
+	</script>
+	<script>
+		$(function(){
+			$("#to-login").click(function(){
+				$('#login-modal').modal('show');
+			})
+		});
+		$("#login-sign").click(function(){
+			$('#login-modal').modal('hide');
+			$('#sign-in-modal').modal('show');
+		});
+		$("#sign-login").click(function(){
+			$('#sign-in-modal').modal('hide');
+			$('#login-modal').modal('show');
+		});
+		$("#loginBtn").click(function(){
+			var username = $("#username").val();
+			var password = $("#password").val();
+			if(username && password){
+				var data = {"uname":username,"upwd":password};
+				$.ajax({
+					url:'/login',
+					type:'post',
+					data: data,
+					success: function(data,status){
+						if(data.err == 1){
+							$("#login-error").text("账号或密码错误");
+							$("#login-error").show();
+						} else if(data.err == 0){
+							location.href = 'home';
+						}
+					},
+					error: function(data,status){
+						if(status == 'error'){
+							$("#login-error").text("登陆意外出错");
+							$("#login-error").show();
+						}
+					}
+				});
+			}
+		});
+		$('#registerBtn').click(function(){
+			var username = $("#reg-username").val();
+			var password = $("#reg-passwd").val();
+			var password1 = $("#reg-passwd1").val();
+			if(password != password1){
+				$("#password").css("border","1px solid red");
+				$("#password1").css("border","1px solid red");
+				$('#register-error').text("输入密码不一致");
+				$('#register-error').show();
+			}else if(password == password1){
+				var data = {"uname":username,"upwd":password};
+				$.ajax({
+					url: '/register',
+					type: 'post',
+					data: data,
+					success: function(data,status){
+						if(data.err == 1){
+							$('#register-error').text("该用户名已经被注册");
+							$('#register-error').show();
+						}
+						else if(data.err == 0){
+
+						}
+					},
+					error: function(data,err){
+						$('#register-error').text("注册出错");
+						$('#register-error').show();
+					}
+				});
+			}
+		});
+	</script>
+
+	<script>
+	  var socket = io();
+	  $('#message-box').submit(function(){
+		  var sendmsg = $('#btn-input').val();
+		  if(sendmsg == '') {
+			  return false;
+		  }
+		if($('#LoginName').text() != ""){
+			socket.emit('chat message', sendmsg);
+			$('#messages').append($('<li>').append($('<div align="right">').append($('<p class="bubble you"  align="left">').text(sendmsg))));
+			$('#btn-input').val('');
+		}
+		else {
+			$('#login-modal').modal('show');
+		}
+		return false;
+	  });
+	  socket.on('chat message', function(msg){
+		$('#messages').append($('<li>').append($('<div align="left">').append($('<p class="bubble me">').text(msg.msg))));
+	  });
+	  socket.on('Nologin', function(msg){
+		$('#login-modal').modal('show');
+	  });
+	  socket.on('error', function(err) {
+		  alert("登陆出现异常，请刷新重试");
+	  });
+	</script>
+</body>
+
+</html>

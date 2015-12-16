@@ -1,0 +1,29 @@
+.imgtest{
+	margin:10px 5px;
+	overflow:hidden;
+}
+.imgtest div{
+    display:inline-block;
+    margin:5px auto;
+    border-radius:100px;
+    border:2px solid #fff;
+    overflow:hidden;
+    -webkit-box-shadow:0 0 3px #ccc;
+    box-shadow:0 0 3px #ccc;
+}
+.px32 {
+    width:32px;
+    height:32px;
+}
+.px64 {
+    width:64px;
+    height:64px;
+}
+.px128 {
+    width:128px;
+    height:128px;
+}
+.imgtest img{
+    width:100%;
+    min-height:100%; text-align:center;
+}
