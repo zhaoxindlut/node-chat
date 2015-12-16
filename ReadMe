@@ -1,0 +1,47 @@
+#chat模块：
+- 设置头像
+- 设置系统消息
+- 保存聊天记录
+- 聊天表情
+- 聊天人信息按钮
+
+#nav模块：
+- 用户setting页面
+- 消息盒子项
+- 用户头像
+- 登陆选项
+
+#左列表模块：
+- 好友系统
+- 好友分组
+- 好友信息
+
+#右列表模块
+- 聊天人信息，添加好友按钮
+- 后期再增加功能
+
+#数据库表设计
+- db.user
+    用户密码等安全信息表
+    >userID   
+    >userpassword
+- db.userInfo
+    用户的一些设置信息
+    >userID
+    >username
+    >userIcon
+- db.friendTable
+    >userID
+    >friendlist
+- db.chatMsg
+    >msg
+    >date
+    >user1
+    >user2
+
+#版本控制
+- 搭建git服务器
+
+#运行
+- npm install
+- node app.js
