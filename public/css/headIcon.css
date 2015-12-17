@@ -1,28 +1,64 @@
-.imgtest{
-	margin:10px 5px;
+.imgtest {
+	display:inline-block;
+	border-radius:100px;
+	border:2px solid rgba(181, 187, 232, 0.69);
 	overflow:hidden;
+	-webkit-box-shadow:0 0 3px #ccc;
+	box-shadow:0 0 3px #ccc;
 }
-.imgtest div{
-    display:inline-block;
-    margin:5px auto;
-    border-radius:100px;
-    border:2px solid #fff;
-    overflow:hidden;
-    -webkit-box-shadow:0 0 3px #ccc;
-    box-shadow:0 0 3px #ccc;
-}
-.px32 {
+.round32 {
     width:32px;
     height:32px;
+	border-radius:100px;
 }
-.px64 {
+.round48 {
+    width:48px;
+    height:48px;
+	border-radius:100px;
+}
+.round64 {
     width:64px;
     height:64px;
+	border-radius:100px;
 }
-.px128 {
+.round128 {
     width:128px;
     height:128px;
+	border-radius:100px;
 }
+.radius48 {
+    width:48px;
+    height:48px;
+    border-radius:10px;
+}
+.radius64 {
+    width:64px;
+    height:64px;
+	border-radius:20px;
+}
+.radius128 {
+    width:128px;
+    height:128px;
+	border-radius:30px;
+}
+/*本用来添加用户名的*/
+.iconName
+{
+display: inline-block
+}
+.iconName div p
+{
+	font-size: 12px;
+	text-align: center;
+	border-left-style:solid;
+	border-right-style:solid;
+	border-left-color:rgba(255, 0, 0, 0.18);
+	border-right-color:rgba(255, 0, 0, 0.18);
+	border-width:1px;
+	background-color:rgba(255, 0, 0, 0.15);
+	width:80%;
+}
+
 .imgtest img{
     width:100%;
     min-height:100%; text-align:center;
