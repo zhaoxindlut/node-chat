@@ -2,6 +2,7 @@ var express = require('express');
 var app = require('express')();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
+global.scoketio = io;
 var bodyParser = require('body-parser');
 var cookie = require('cookie');
 var cookieParser = require('cookie-parser');
@@ -96,7 +97,8 @@ io.on('connection', function(socket){
         else {
             console.log(session.user.username + "#" + msg);
             //给除了发送者，发送消息。
-            socket.broadcast.emit('chat message', {"username" : session.user.username, "msg" : msg});
+			//需要修改这里的头像，获取消息来源者的头像
+            socket.broadcast.emit('chat message', {"username" : session.user.username, "msg" : msg, "userIcon" : "head2.jpg"});
         }
     });
 });

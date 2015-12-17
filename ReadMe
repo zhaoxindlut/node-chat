@@ -41,6 +41,9 @@
 
 #版本控制
 - 搭建git服务器
+- 从服务器下载：git clone meows@210.30.97.27:/home/meows/node-chat.git
+- 从服务器更新：git pull
+- 可以使用公钥来直接使用git，但不要ssh登陆乱玩服务器，毕竟这meows账户是我的。
 
 #运行
 - npm install

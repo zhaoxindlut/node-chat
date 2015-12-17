@@ -9,6 +9,9 @@
 <link href="css/datepicker3.css" rel="stylesheet">
 <link href="css/styles.css" rel="stylesheet">
 <link href="css/bubble.css" rel="stylesheet">
+<link href="css/headIcon.css" rel="stylesheet">
+<link href="css/jquery.tipsy.css" rel="stylesheet">
+
 
 <!--[if lt IE 9]>
 <script src="js/html5shiv.js"></script>
@@ -31,7 +34,7 @@
 				<ul class="user-menu">
 					<% if(username) { %>
 					<li class="dropdown pull-right">
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown" id="LoginName"><span class="glyphicon glyphicon-user"></span> <%- username %> <span class="caret"></span></a>
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown" id="LoginName"><img class="round32 imgtest" id="userIcon" src=<%- usericon %> /> <%- username %> <span class="caret"></span></a>
 						<ul class="dropdown-menu" role="menu">
 							<li><a href="#"><span class="glyphicon glyphicon-user"></span> Profile</a></li>
 							<li><a href="#"><span class="glyphicon glyphicon-cog"></span> Settings</a></li>
@@ -103,12 +106,27 @@
 						<ul id="messages" class="chat-box">
 							<li>
 								<div align="left">
-									<p class="bubble me">这只是一个示例</p>
+									<figure class="iconName">
+										<img class="radius48 imgtest" src="head2.jpg" />
+									</figure>
+									<p class="bubble me iconName">这只是一个示例</p>
 								</div>
 							</li>
 							<li>
 								<div align="right">
 									<p class="bubble you" align="left">这是一个比较长的示例。Hi. I'm an expandeable chat box with box shadow. How are you? I expand horizontally and vertically, as you can see here.</p>
+									<img class="radius48 imgtest" src="head.jpg" data-toggle="tooltip" data-placement="bottom" title="哈哈哈"/>
+								</div>
+							</li>
+							<li>
+								<div align="center">
+									<p class="sysmsg">系统消息</p>
+								</div>
+							</li>
+							<li>
+								<div align="right">
+									<p class="bubble you" align="left">这是一个比较长的示例。Hi. I'm an expandeable chat box with box shadow. How are you? I expand horizontally and vertically, as you can see here.</p>
+									<img class="radius48 imgtest" src="head.jpg" />
 								</div>
 							</li>
 						</ul>
@@ -117,7 +135,7 @@
 					<div class="panel-footer">
 						<form action="" id='message-box'>
 							<div class="input-group">
-								<input id="btn-input" type="text" class="form-control input-md" placeholder="Type your message here..." required="不能发送空消息"/>
+								<input id="btn-input" type="text" class="form-control input-md" placeholder="Type your message here..." required oninvalid="setCustomValidity('不能发送空字段');" oninput="setCustomValidity('')" />
 								<span class="input-group-btn">
 									<button class="btn btn-success btn-md" id="btn-chat">Send</button>
 								</span>
@@ -327,11 +345,11 @@
 	<script src="js/jquery-2.1.4.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
 	<script src="../socket.io/socket.io.js"></script>
-
+	<script src="js/jquery.tipsy.js"></script>
 	<script>
 		// 这主要是控制界面
 		console.log($('#chatbox').offset());
-		$('#chatbox').height($(window).height() - 2*$('#chatbox').offset().top);
+		$('#chatbox').height($(window).height() - 1.8*$('#chatbox').offset().top);
 		!function ($) {
 		    $(document).on("click","ul.nav li.parent > a > span.icon", function(){
 		        $(this).find('em:first').toggleClass("glyphicon-minus");
@@ -349,7 +367,10 @@
 		})
 
 		$(window).on('resize', function () {
-		  $('#chatbox').height($(window).height() - 2*$('#chatbox').offset().top);
+		  	$('#chatbox').height($(window).height() - 1.8*$('#chatbox').offset().top);
+		})
+		$(function () {
+			$('[data-toggle="tooltip"]').tooltip()
 		})
 	</script>
 	<script>
@@ -413,7 +434,9 @@
 							$('#register-error').show();
 						}
 						else if(data.err == 0){
-
+							alert("注册成功～");
+							$('#sign-in-modal').modal('hide');
+							$('#login-modal').modal('show');
 						}
 					},
 					error: function(data,err){
@@ -427,6 +450,18 @@
 
 	<script>
 	  var socket = io();
+	  //加这块是为了防止scroll动画抖动
+	  var chatboxHeight=0;
+	  var isAnimate=false;
+	  $('#chatbox').scroll(function(){
+		  	if( isAnimate && $('#chatbox').scrollTop() < chatboxHeight ){
+				isAnimate=false;
+				$('#chatbox').stop();
+				console.log($('#chatbox').scrollTop());
+			}
+			chatboxHeight = $('#chatbox').scrollTop();
+	  });
+	  //发送消息函数
 	  $('#message-box').submit(function(){
 		  var sendmsg = $('#btn-input').val();
 		  if(sendmsg == '') {
@@ -434,7 +469,11 @@
 		  }
 		if($('#LoginName').text() != ""){
 			socket.emit('chat message', sendmsg);
-			$('#messages').append($('<li>').append($('<div align="right">').append($('<p class="bubble you"  align="left">').text(sendmsg))));
+			var newMsg = $('<li hidden>').append($('<div align="right">').append($('<p class="bubble you"  align="left">').text(sendmsg)).append($('<img class="radius48 imgtest" src="'+ $('#userIcon').attr("src") +'">')));
+			$('#messages').append(newMsg);
+			newMsg.fadeIn("slow");
+			isAnimate=true;
+			$('#chatbox').animate({scrollTop:$('#chatbox')[0].scrollHeight}, 600, function(){ isAnimate=false; });
 			$('#btn-input').val('');
 		}
 		else {
@@ -442,12 +481,33 @@
 		}
 		return false;
 	  });
+	  //处理接收到的聊天消息
 	  socket.on('chat message', function(msg){
-		$('#messages').append($('<li>').append($('<div align="left">').append($('<p class="bubble me">').text(msg.msg))));
+		  var messageHeight =  $('#chatbox')[0].scrollHeight;
+		  var newMsg = $('<li hidden>').append($('<div align="left">').append($('<img class="radius48 imgtest" src="'+ msg.userIcon +'">')).append($('<p class="bubble me">').text(msg.msg)));
+		  $('#messages').append(newMsg);
+		  newMsg.fadeIn("slow");
+		  //一个滚动的动画判断
+		  if( $('#chatbox').scrollTop() + $('#chatbox').outerHeight() + ($('#chatbox')[0].scrollHeight - messageHeight)>=  messageHeight  || $('#chatbox').scrollTop() == 0)
+		  	$('#chatbox').animate({scrollTop:$('#chatbox')[0].scrollHeight}, 800);
 	  });
+	  //处理未登陆的消息
 	  socket.on('Nologin', function(msg){
 		$('#login-modal').modal('show');
 	  });
+	  //系统消息
+	  socket.on('sysmsg', function(msg){
+		  if(msg.msgType == 1) {
+			  var messageHeight =  $('#chatbox')[0].scrollHeight;
+			  var newMsg = $('<li hidden>').append($('<div align="center">').append($('<p class="sysmsg">').text("——  欢迎 < " + msg.username + " > 加入聊天室  ——")));
+			  $('#messages').append(newMsg);
+			  newMsg.fadeIn("slow");
+			  //一个滚动的动画判断
+			  if( $('#chatbox').scrollTop() + $('#chatbox').outerHeight() + ($('#chatbox')[0].scrollHeight - messageHeight)>=  messageHeight  || $('#chatbox').scrollTop() == 0)
+			  	$('#chatbox').animate({scrollTop:$('#chatbox')[0].scrollHeight}, 800);
+			}
+	  });
+	  //处理socket连接异常的错误
 	  socket.on('error', function(err) {
 		  alert("登陆出现异常，请刷新重试");
 	  });

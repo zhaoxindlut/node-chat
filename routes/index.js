@@ -11,10 +11,14 @@ router.get('/', function(req, res,next) {
 router.route('/home')
 .get(function(req, res) {
     res.locals.username = "";
-    if(req.session.user)
+    if(req.session.user){
         res.locals.username = req.session.user.username;
+        //设置登陆者的头像，需要修改
+        res.locals.usericon = "head.jpg";
+    }
     else {
         req.session.user = null;
+        res.locals.usericon = null;
     }
     res.render('home');    // 到达此路径则渲染index文件，并传出title值供 index.html使用
 })

@@ -70,6 +70,7 @@ exports.login=function(req, res){
             else {
                 req.session.user = doc;
                 res.json({success : 1, "err" : 0})
+				global.scoketio.emit('sysmsg', {msgType: 1, username: doc.username});
             }
 		});
 }
