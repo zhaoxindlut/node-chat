@@ -13,7 +13,7 @@ p {
 }
 
 a, a:hover, a:focus {
-	color: #30a5ff;
+	color: #372E33;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -34,8 +34,106 @@ h3, h4 {
 	font-weight: 300;
 }
 
+.header-top {
+	height: 42px;
+    background: #fff;
+    box-shadow: rgba(245, 245, 245, 0.2) 0 2px 2px;
+    top: 0;
+    left: 0;
+    width: 100%;
+    position: relative;
+    z-index: 1001;
+    font-family: "Microsoft YaHei",Arial,Helvetica,sans-serifsans-serif;
+    color: #222;
+	margin-bottom: 10px;
+}
+
+.header-mask-wrp {
+	display: block;
+	position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-color: #fff;
+}
+.header-mask-wrp .header-mask-bg {
+	background: url("../background/main.jpg");
+	position: absolute;
+    height: 62px;
+    padding: 0 20px;
+    top: -10px;
+    left: -20px;
+    width: 100%;
+    -webkit-filter: blur(5px);
+    -ms-filter: blur(5px);
+    filter: blur(5px);
+    filter: progid:DXImageTransform.Microsoft.Blur(PixelRadius=5,MakeShadow=false);
+    z-index: 50;
+    background-position: center 0!important;
+    background-repeat: no-repeat;
+}
+
+.header-mask-wrp .header-mask{
+	position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #fff;
+    filter: alpha(opacity=40) \9;
+    background-color: rgba(255,255,255,0.4);
+    z-index: 100;
+}
+.header {
+	display: block;
+    position: relative;
+    text-align: left;
+    z-index: 10000;
+    zoom: 1;
+}
+
+.header-name {
+	color: #372E33;
+}
+
 .main {
-	background: url("background/main.jpg");
+	background: url("../background/main.jpg");
+	padding-left:0px;
+	padding-right:0px;
+	top: 0px;
+}
+
+.main-head-mask {
+    filter: url(blur.svg#blur); /* FireFox, Chrome, Opera */
+    -webkit-filter: blur(5px); /* Chrome, Opera */
+       -moz-filter: blur(5px);
+        -ms-filter: blur(5px);
+            filter: blur(5px);
+    filter: progid:DXImageTransform.Microsoft.Blur(PixelRadius=10, MakeShadow=false); /* IE6~IE9 */
+	position: absolute;
+	width: 100%;
+	height: 40px;
+	background: url("../background/main.jpg");
+	z-index:2;
+	margin-left: 0px;
+	box-shadow: 0px 2px 0px #888888;
+}
+
+.main-head {
+	display: block;
+	height: 40px;
+}
+
+.main-head ol{
+    background-color: transparent;
+}
+
+.main-head ol li{
+	position: absolute;
+	color: #FFFFFF;
+	z-index: 13;
 }
 
 .large {
@@ -347,11 +445,13 @@ a.bg-danger:hover {
 .panel-teal { background: #1ebfae; color: #fff; }
 .panel-orange { background: #ffb53e; color: #fff; }
 .panel-red { background: #f9243f; color: #fff; }
+.panel-pink { background: rgba(255, 48, 175, 0.51) }
 
 .panel-blue .panel-body p,
 .panel-teal .panel-body p,
 .panel-orange .panel-body p,
-.panel-red .panel-body p {
+.panel-red .panel-body p,
+.panel-pink .panel-body p {
 	color: #fff;
 	color: rgba(255, 255, 255, .8);
 }
@@ -635,11 +735,11 @@ a.bg-danger:hover {
 /*Breadcrumbs*/
 
 .breadcrumb {
-	border-radius: 0;
-	padding: 10px 15px;
-	background: #e9ecf2;
+	padding: 12px 15px;
+	background: transparent;
 	box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
 	margin: 0 ;
+	height:100%;
 }
 
 h1.page-header {
@@ -800,7 +900,6 @@ h1.page-header {
 
 .chat ul {
 	list-style: none;
-	margin: -15px;
 	padding: 15px;
 }
 
@@ -822,7 +921,8 @@ h1.page-header {
 
 .chat .panel-body {
 	overflow-y: scroll;
-	height:100%
+	height:100%;
+	width: 99%;
 }
 
 .chat-body small {
