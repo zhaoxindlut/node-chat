@@ -102,7 +102,7 @@ h3, h4 {
 	background: url("../background/main.jpg");
 	padding-left:0px;
 	padding-right:0px;
-	top: 52px;
+	top: 50px;
 	height: 100%;
 	position: fixed;
 }
@@ -918,7 +918,7 @@ h1.page-header {
 }
 
 .chat ul .glyphicon {
-	margin-right: 5px;
+	margin-right: 5px
 }
 
 .chat .panel-body {
@@ -927,7 +927,7 @@ h1.page-header {
 	width: 99%;
     padding: 5px;
 	background: url("../background/chatbox.jpg");
-	background-size:cover; 
+	background-size:cover;
 }
 
 .chat-body small {
