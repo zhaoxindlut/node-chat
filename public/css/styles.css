@@ -102,7 +102,9 @@ h3, h4 {
 	background: url("../background/main.jpg");
 	padding-left:0px;
 	padding-right:0px;
-	top: 0px;
+	top: 52px;
+	height: 100%;
+	position: fixed;
 }
 
 .main-head-mask {
@@ -923,6 +925,9 @@ h1.page-header {
 	overflow-y: scroll;
 	height:100%;
 	width: 99%;
+    padding: 5px;
+	background: url("../background/chatbox.jpg");
+	background-size:cover; 
 }
 
 .chat-body small {
