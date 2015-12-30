@@ -26,6 +26,16 @@
     height:128px;
 	border-radius:100px;
 }
+.radius24 {
+    width:24px;
+    height:24px;
+    border-radius:4px;
+}
+.radius32 {
+    width:32px;
+    height:32px;
+    border-radius:4px;
+}
 .radius48 {
     width:48px;
     height:48px;

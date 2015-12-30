@@ -2,7 +2,7 @@ var express = require('express');
 var app = require('express')();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
-global.scoketio = io;
+global.socketio = io;
 var bodyParser = require('body-parser');
 var cookie = require('cookie');
 var cookieParser = require('cookie-parser');
@@ -13,21 +13,25 @@ var session = require('express-session');
 
 
 var routes = require('./routes/index');
+var db = require('./db.js');
 
 //定义一些常量
 var url = 'mongodb://localhost:27017/chat'
 const COOKIE_SECRET = 'secret',
 		COOKIE_KEY = 'express.sid';
 
+/*
 //连接mongodb
 MongoClient.connect(url, function(err, db){
     assert.equal(null, err);
     console.log("connected correctly to server");
     //db.close();
 });
-
+*/
 //为session分配存储
 var sessionStore = new session.MemoryStore(); //????
+var socketList = {};
+var onlineUserList = {};
 app.use(session({
     store: sessionStore,
 	secret: 'secret',
@@ -57,18 +61,18 @@ io.use(function(socket, next) { //对socket.io进行配置中间件，处理sock
     console.log("a socket connect");
 	var data = socket.handshake || socket.request;
 	if (data.headers.cookie) {
-        console.log("socket data exist");
+        //console.log("socket data exist");
 		data.cookie = cookie.parse(data.headers.cookie);  //从socket连接中获得cookie信息
-        console.log(data.cookie);
+        //console.log(data.cookie);
 		data.sessionID = cookieParser.signedCookie(data.cookie[COOKIE_KEY], COOKIE_SECRET);
 		data.sessionStore = sessionStore;
-        console.log(data.sessionID);
+        //console.log(data.sessionID);
 		sessionStore.get(data.sessionID, function (err, session) {
 			if (err || !session) {
                 console.log("No session");
 				return next(new Error('session not found'))
 			} else {
-                console.log(session);
+                //console.log(session);
 				data.session = session;
 				data.session.id = data.sessionID;
 				next();
@@ -90,7 +94,40 @@ app.use('/register',routes);
 //其实可以设计成在上面的中间件的时候就返回未登陆错误，减少连接和socket监听开销
 io.on('connection', function(socket){
     var session = socket.handshake.session;
-    console.log('a user connected');
+	if(session.user != null){
+		//将当前的连接上的用户添加至在线里面
+	    socketList[session.user.username] = socket.id;
+		var Joincall = function(userInfo){
+			if(userInfo != {})
+				socketio.emit('someoneJoin', {"user_id": userInfo['username'], "nickname": userInfo['username'], "headicon" : "head2.jpg"});
+		};
+		db.getUserInfo(session.user.username, Joincall);
+	}
+
+	//返回当前存在的人的列表
+	var returnonlinelist = function(infoList){
+		socket.emit('replyOnlineList', infoList);
+	};
+	console.log('getOnlineList');
+	var onlineUserList = [];
+	for(var connectid in socketList){
+		if((!session.user || connectid != session.user.username) && connectid != '')
+			onlineUserList.push(connectid);
+	}
+	db.getUserInfoList(onlineUserList, returnonlinelist);
+
+	//处理用户断开链接
+	socket.on('disconnect', function(){
+		if(session.user){
+			console.log(session.user.username + ' has disconnect');
+			socket.broadcast.emit('someoneLeave', {"user_id" : session.user.username});
+			delete socketList[session.user.username];
+		}
+		else {
+			console.log('someone has disconnect');
+		}
+	});
+
     socket.on('chat message', function(msg){
         if(session.user == null)
             socket.emit('Nologin' , '');    //给客户端发送消息，没有登陆
@@ -101,6 +138,17 @@ io.on('connection', function(socket){
             socket.broadcast.emit('chat message', {"username" : session.user.username, "msg" : msg, "userIcon" : "head2.jpg"});
         }
     });
+	//处理头像点击的事件
+	socket.on('get user info', function(msg){
+		console.log('To get user info, ID: ' + msg.userId);
+		var iconClickCall = function(userInfo){
+			if(userInfo != {})
+				socket.emit("get user info", userInfo);
+		}
+		if(msg.userId != ''){
+			db.getUserInfo(msg.userId, iconClickCall);
+		}
+	});
 });
 
 http.listen(3000, function(){

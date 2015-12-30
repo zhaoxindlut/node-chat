@@ -70,8 +70,40 @@ exports.login=function(req, res){
             else {
                 req.session.user = doc;
                 res.json({success : 1, "err" : 0})
-				global.scoketio.emit('sysmsg', {msgType: 1, username: doc.username});
+				global.socketio.emit('sysmsg', {msgType: 1, username: doc.username});
             }
 		});
+}
+
+//socket-normal db control
+exports.getUserInfo=function(userId, callback){
+	Step(
+		function getCollection(){
+			db.collection('user', this);
+		},
+		function findData(err, collection){
+			if(err) throw err;
+			collection.findOne({'username' : userId}, this);
+		},
+		function (err, doc){
+			if (err) throw err;
+			if(doc) {
+				doc["headicon"] = 'head2.jpg';
+				callback(doc);
+			}
+			else {
+				console.log("getUserInfo： Not find the user info, ID: " + userId);
+				callback(doc);
+			}
+		}
+	)
+}
+
+exports.getUserInfoList=function(userIdList, callback){
+	var infoList = [];
+	for(var i = 0; i < userIdList.length; i++){
+		infoList.push({"user_id": userIdList[i], "nickname": userIdList[i], "headicon" : "head2.jpg"});
+	}
+	callback(infoList);
 }
 exports.sharedDB=db;

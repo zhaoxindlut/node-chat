@@ -34,7 +34,7 @@
 				<ul class="user-menu">
 					<% if(username) { %>
 					<li class="dropdown pull-right">
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown" id="LoginName"><img class="round32 imgtest" id="userIcon" src=<%- usericon %> /> <%- username %> <span class="caret"></span></a>
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown" id="LoginName"><img class="round32 imgtest userheadicon" id="userIcon" data-id="123456" src=<%- usericon %> /> <%- username %> <span class="caret"></span></a>
 						<ul class="dropdown-menu" role="menu">
 							<li><a href="#"><span class="glyphicon glyphicon-user"></span> Profile</a></li>
 							<li><a href="#"><span class="glyphicon glyphicon-cog"></span> Settings</a></li>
@@ -53,12 +53,9 @@
 				<input type="text" class="form-control" placeholder="Search">
 			</div>
 		</form>
-		<ul class="nav menu">
+		<ul class="nav menu" id="OnlineUserList">
 			<li class="active"><a href="home"><span class="glyphicon glyphicon-dashboard"></span> 聊天室</a></li>
-			<li><a href="#"><span class="glyphicon glyphicon-th"></span> Widgets</a></li>
-			<li><a href="#"><span class="glyphicon glyphicon-stats"></span> Charts</a></li>
-			<li><a href="#"><span class="glyphicon glyphicon-list-alt"></span> Tables</a></li>
-			<li><a href="#"><span class="glyphicon glyphicon-info-sign"></span> Alerts &amp; Panels</a></li>
+			<!---
 			<li><a href="#"><div href="#" align="center"><span class="glyphicon glyphicon-s glyphicon-plus"></span></div></a></li>
 			<li class="parent ">
 				<a href="#">
@@ -82,6 +79,7 @@
 					</li>
 				</ul>
 			</li>
+			---->
 			<li role="presentation" class="divider"></li>
 			<% if(!username) { %>
 			<li><a href="#" id="to-login"><span class="glyphicon glyphicon-user"></span> Login Page</a></li>
@@ -111,16 +109,23 @@
 						<ul id="messages" class="chat-box">
 							<li>
 								<div align="left">
-									<figure class="iconName">
-										<img class="radius48 imgtest" src="head2.jpg" />
-									</figure>
+									<img class="radius48 imgtest userheadicon" src="head2.jpg" data-id="123"/>
+									<p class="bubble me iconName">这只是一个示例</p>
+								</div>
+							</li>
+							<li>
+								<div align="left">
+									<img class="radius48 imgtest userheadicon" src="head2.jpg" data-id="123"/>
 									<p class="bubble me iconName">这只是一个示例</p>
 								</div>
 							</li>
 							<li>
 								<div align="right">
 									<p class="bubble you" align="left">这是一个比较长的示例。Hi. I'm an expandeable chat box with box shadow. How are you? I expand horizontally and vertically, as you can see here.</p>
-									<img class="radius48 imgtest" src="head.jpg" data-toggle="tooltip" data-placement="bottom" title="哈哈哈"/>
+									<figure id="ownself" class="iconName">
+										<img class="radius48 imgtest" src="head.jpg" data-toggle="tooltip" data-placement="bottom" title="哈哈哈"/>
+										<div id="chaterID" hidden="">12345</div>
+									</figure>
 								</div>
 							</li>
 							<li>
@@ -140,7 +145,7 @@
 					<div class="panel-footer">
 						<form action="" id='message-box'>
 							<div class="input-group">
-								<input id="btn-input" type="text" class="form-control input-md" placeholder="Type your message here..." required oninvalid="setCustomValidity('不能发送空字段');" oninput="setCustomValidity('')" />
+								<input id="btn-input" type="text" class="form-control input-md" placeholder="Type your message here..." required oninvalid="setCustomValidity('不能发送空字段');" oninput="setCustomValidity('')" autocomplete="off" />
 								<span class="input-group-btn">
 									<button class="btn btn-success btn-md" id="btn-chat">Send</button>
 								</span>
@@ -154,10 +159,11 @@
 			<div class="col-md-3 ">
 
 				<div class="panel panel-pink">
-					<div class="panel-heading dark-overlay"><img class="radius48 imgtest" src="head.jpg" /></div>
+					<div class="panel-heading dark-overlay"><img class="radius48 imgtest" id="info-headicon" src="head.jpg" data-id="123" /></div>
 					<div class="panel-body">
 						<ul class="todo-list">
-						<li class="todo-list-item">
+							<!--
+							<li class="todo-list-item">
 								<div class="checkbox">
 									<input type="checkbox" id="checkbox" />
 									<label for="checkbox">Make a plan for today</label>
@@ -168,68 +174,37 @@
 									<a href="#" class="trash"><span class="glyphicon glyphicon-trash"></span></a>
 								</div>
 							</li>
+						-->
 							<li class="todo-list-item">
-								<div class="checkbox">
-									<input type="checkbox" id="checkbox" />
-									<label for="checkbox">Update Basecamp</label>
-								</div>
-								<div class="pull-right action-buttons">
-									<a href="#"><span class="glyphicon glyphicon-pencil"></span></a>
-									<a href="#" class="flag"><span class="glyphicon glyphicon-flag"></span></a>
-									<a href="#" class="trash"><span class="glyphicon glyphicon-trash"></span></a>
+								<div class="input-group infor">
+									<p class="input-group-addon">昵称</p>
+									<input type="text" class="form-control" id="info-name" name="info-name" readonly="true" value="asd">
 								</div>
 							</li>
 							<li class="todo-list-item">
-								<div class="checkbox">
-									<input type="checkbox" id="checkbox" />
-									<label for="checkbox">Send email to Jane</label>
-								</div>
-								<div class="pull-right action-buttons">
-									<a href="#"><span class="glyphicon glyphicon-pencil"></span></a>
-									<a href="#" class="flag"><span class="glyphicon glyphicon-flag"></span></a>
-									<a href="#" class="trash"><span class="glyphicon glyphicon-trash"></span></a>
+								<div class="input-group infor">
+									<p class="input-group-addon">性别</p>
+									<input type="text" class="form-control" id="info-name" name="info-name" readonly="true" value="女">
 								</div>
 							</li>
 							<li class="todo-list-item">
-								<div class="checkbox">
-									<input type="checkbox" id="checkbox" />
-									<label for="checkbox">Drink coffee</label>
-								</div>
-								<div class="pull-right action-buttons">
-									<a href="#"><span class="glyphicon glyphicon-pencil"></span></a>
-									<a href="#" class="flag"><span class="glyphicon glyphicon-flag"></span></a>
-									<a href="#" class="trash"><span class="glyphicon glyphicon-trash"></span></a>
+								<div class="input-group infor">
+									<p class="input-group-addon">年龄</p>
+									<input type="text" class="form-control" id="info-name" name="info-name" readonly="true" value="保密">
 								</div>
 							</li>
 							<li class="todo-list-item">
-								<div class="checkbox">
-									<input type="checkbox" id="checkbox" />
-									<label for="checkbox">Do some work</label>
-								</div>
-								<div class="pull-right action-buttons">
-									<a href="#"><span class="glyphicon glyphicon-pencil"></span></a>
-									<a href="#" class="flag"><span class="glyphicon glyphicon-flag"></span></a>
-									<a href="#" class="trash"><span class="glyphicon glyphicon-trash"></span></a>
-								</div>
-							</li>
-							<li class="todo-list-item">
-								<div class="checkbox">
-									<input type="checkbox" id="checkbox" />
-									<label for="checkbox">Tidy up workspace</label>
-								</div>
-								<div class="pull-right action-buttons">
-									<a href="#"><span class="glyphicon glyphicon-pencil"></span></a>
-									<a href="#" class="flag"><span class="glyphicon glyphicon-flag"></span></a>
-									<a href="#" class="trash"><span class="glyphicon glyphicon-trash"></span></a>
+								<div class="input-group infor">
+									<p class="input-group-addon">邮箱</p>
+									<input type="text" class="form-control" id="info-name" name="info-name" readonly="true" value="123456@xx.com">
 								</div>
 							</li>
 						</ul>
 					</div>
 					<div class="panel-footer">
 						<div class="input-group">
-							<input id="btn-input" type="text" class="form-control input-md" placeholder="Add new task" />
 							<span class="input-group-btn">
-								<button class="btn btn-primary btn-md" id="btn-todo">Add</button>
+								<button class="btn btn-primary btn-md btn-add-friend" id="btn-add-friend">发起会话</button>
 							</span>
 						</div>
 					</div>
@@ -468,11 +443,39 @@
 				});
 			}
 		});
+		//处理点击聊天窗口头像
+		$('.userheadicon').click(function(){
+			var clickedId = $(this).attr("data-id");
+			var msgData = {
+				"userId" : clickedId
+			};
+			socket.emit('get user info', msgData);
+		});
+
 	</script>
 
 	<script>
 	  var socket = io();
+	  var onlinelist = {};
 	  //加这块是为了防止scroll动画抖动
+	  socket.on('replyOnlineList', function(infoList){
+		  if(infoList){
+			  for(var i = 0; i < infoList.length; i++){
+				  var userLabel = $('<li>').html('<a href="#"><img class="radius32 imgtest" src="'+ infoList[i]['headicon'] +'" data-id="123" /> '+ infoList[i]['nickname'] +'</a>')
+				  onlinelist[ infoList[i]['user_id'] ] = userLabel;
+				  $('#OnlineUserList').append(userLabel);
+			  }
+		  }
+	  });
+	  socket.on('someoneLeave', function(data){
+		  onlinelist[ data['user_id'] ].remove();
+		  delete onlinelist[data['user_id']];
+	  });
+	  socket.on('someoneJoin', function(data){
+		  var userLabel = $('<li>').html('<a href="#"><img class="radius32 imgtest" src="'+ data['headicon'] +'" data-id="123" /> '+ data['nickname'] +'</a>')
+		  onlinelist[ data['user_id'] ] = userLabel;
+		  $('#OnlineUserList').append(userLabel);
+	  });
 	  var chatboxHeight=0;
 	  var isAnimate=false;
 	  $('#chatbox').scroll(function(){
@@ -508,7 +511,12 @@
 	  //处理接收到的聊天消息
 	  socket.on('chat message', function(msg){
 		  var messageHeight =  $('#chatbox')[0].scrollHeight;
-		  var newMsg = $('<li hidden>').append($('<div align="left">').append($('<img class="radius48 imgtest" src="'+ msg.userIcon +'">')).append($('<p class="bubble me">').text(msg.msg)));
+
+		  var headimg = $('<img class="radius48 imgtest userheadicon" src="'+ msg.userIcon +'">');
+		  var chatbox = $('<p class="bubble me">').text(msg.msg);
+		  var leftdiv =$('<div align="left">').append(headimg).append(chatbox);
+		  var newMsg = $('<li hidden>').append(leftdiv);
+		  //var newMsg = $('<li hidden>').append($('<div align="left">').append(($'<figure id="chater" class="iconName">').append($('<img class="radius48 imgtest" src="'+ msg.userIcon +'">')).append($('div id="chaterID" hidden').text('123456'))).append($('<p class="bubble me">').text(msg.msg)));
 		  $('#messages').append(newMsg);
 		  newMsg.fadeIn("slow");
 		  //一个滚动的动画判断
@@ -518,6 +526,14 @@
 	  //处理未登陆的消息
 	  socket.on('Nologin', function(msg){
 		$('#login-modal').modal('show');
+	  });
+	  socket.on('get user info', function(msg){
+		  //alert("get socket res:" + msg.username);
+		  if(msg != {}) {
+			  $('#info-headicon').attr("src", msg.headicon);
+			  $('#info-headicon').attr("data-id", msg.username);
+			  $('#info-name').val(msg.username);
+		  }
 	  });
 	  //系统消息
 	  socket.on('sysmsg', function(msg){
