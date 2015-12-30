@@ -107,3 +107,4 @@ exports.getUserInfoList=function(userIdList, callback){
 	callback(infoList);
 }
 exports.sharedDB=db;
+//啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦
